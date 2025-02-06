@@ -13,7 +13,9 @@ Rails.application.routes.draw do
       resources :users, only: [] do
         resources :sleep_records, only: [:index, :create]
       end
-      resources :follows, only: [:create, :destroy]
+      resources :follows, only: [:create] do
+        delete :destroy, on: :collection
+      end
     end
   end
   

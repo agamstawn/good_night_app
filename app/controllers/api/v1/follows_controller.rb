@@ -13,7 +13,9 @@ class Api::V1::FollowsController < ApplicationController
   
 
   def destroy
-    if @follower.followed_users.delete(@followed)
+    follow = Follow.find_by(follower: @follower, followed: @followed)
+  
+    if follow&.destroy
       render json: { message: "Unfollowed #{@followed.name}" }, status: :ok
     else
       render json: { errors: "Unable to unfollow user" }, status: :unprocessable_entity
