@@ -5,8 +5,8 @@ class SleepRecord < ApplicationRecord
   validate :wake_time_after_sleep_time
 
   def sleep_duration
-    return 0 unless wake_time
-    (wake_time - sleep_time) / 3600.0
+    end_time = wake_time || Time.current 
+    (end_time - sleep_time) / 3600.0 
   end
 
   private
