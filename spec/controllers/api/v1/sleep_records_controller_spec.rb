@@ -38,4 +38,25 @@ RSpec.describe Api::V1::SleepRecordsController, type: :controller do
       end
     end
   end
+
+  describe "POST #clock_in" do
+    context "when clocking in successfully" do
+      before do
+        post :clock_in, params: { user_id: user.id }
+      end
+
+      it "creates a new sleep record with sleep_time set" do
+        expect(SleepRecord.last.sleep_time).not_to be_nil
+      end
+
+      it "does not set wake_time initially" do
+        expect(SleepRecord.last.wake_time).to be_nil
+      end
+
+      it "returns a created status" do
+        expect(response).to have_http_status(:created)
+      end
+    end
+
+  end
 end
