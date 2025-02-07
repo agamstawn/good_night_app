@@ -57,6 +57,19 @@ RSpec.describe Api::V1::SleepRecordsController, type: :controller do
         expect(response).to have_http_status(:created)
       end
     end
-
+    
+    context "when user does not exist" do
+      before do
+        post :clock_in, params: { user_id: 9999 } # Non-existent user
+      end
+    
+      it "returns a not found status" do
+        expect(response).to have_http_status(:not_found)
+      end
+    
+      it "returns an error message" do
+        expect(JSON.parse(response.body)).to include("error" => "User not found")
+      end
+    end
   end
 end

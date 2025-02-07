@@ -27,7 +27,8 @@ class Api::V1::SleepRecordsController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:user_id])
+    @user = User.find_by(id: params[:user_id])
+    render json: { error: "User not found" }, status: :not_found if @user.nil?
   end
 
   def sleep_record_params
