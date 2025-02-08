@@ -27,4 +27,17 @@ RSpec.describe "Api::V1::SleepRecordsController", type: :request do
     end
   end
 
+  describe "POST /api/v1/users/:user_id/clock_in" do
+    it "allows concurrent clock-in requests" do
+      threads = []
+      10.times do
+        threads << Thread.new do
+          post "/api/v1/users/#{user.id}/clock_in"
+          expect(response).to have_http_status(:created)
+        end
+      end
+      threads.each(&:join)
+    end
+  end
+
 end
