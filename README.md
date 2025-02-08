@@ -12,6 +12,7 @@ ruby 3.2.0
 rails 8.0.1
 
 * Configuration
+
 run "bundle install"
 
 please adjust your database.yml with your local credential db
@@ -19,7 +20,9 @@ please adjust your database.yml with your local credential db
 * Database creation and initialization
 
 run "rails db:create"
+
 run "rails db:migrate"
+
 run "rails db:seed"
 
 * How to run the test suite
