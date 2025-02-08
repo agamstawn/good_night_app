@@ -24,6 +24,26 @@ class Api::V1::SleepRecordsController < ApplicationController
     end
   end
 
+  def following_sleep_records
+    user = User.find(params[:user_id])
+
+    sleep_records = SleepRecord.joins(:user)
+      .where(user: user.followed_users, sleep_time: 1.week.ago..Time.current)
+      .order(Arel.sql("wake_time - sleep_time DESC NULLS LAST"))
+
+    formatted_records = sleep_records.map do |record|
+      {
+        user_name: record.user.name,
+        sleep_time: record.sleep_time,
+        wake_time: record.wake_time,
+        duration: record.sleep_duration
+      }
+    end
+
+    render json: formatted_records, status: :ok
+  end
+
+
   private
 
   def set_user
