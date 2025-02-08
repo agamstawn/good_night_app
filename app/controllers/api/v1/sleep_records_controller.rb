@@ -2,7 +2,9 @@ class Api::V1::SleepRecordsController < ApplicationController
   before_action :set_user, only: [:index, :create, :clock_in]
   
   def index
-    sleep_records = @user.sleep_records.order(created_at: :desc)
+    # sleep_records = @user.sleep_records.order(created_at: :desc)
+    sleep_records = @user.sleep_records.order(sleep_time: :desc, created_at: :desc)
+    
     render json: sleep_records, status: :ok
   end
 
